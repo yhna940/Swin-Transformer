@@ -74,6 +74,10 @@ _C.MODEL.SWIN.QK_SCALE = None
 _C.MODEL.SWIN.APE = False
 _C.MODEL.SWIN.PATCH_NORM = True
 
+# Swin Transformer parameters
+_C.MODEL.WRAP = CN()
+_C.MODEL.WRAP.METHOD = None
+
 # Swin Transformer V2 parameters
 _C.MODEL.SWINV2 = CN()
 _C.MODEL.SWINV2.PATCH_SIZE = 4

@@ -134,7 +134,7 @@ def build_dataset(is_train, config):
         nb_classes = 21841
     elif config.DATA.DATASET == 'fake1K':
         nb_classes = 1000
-        dataset = torchvision.datasets.FakeData(image_size=(3, config.DATA.IMG_SIZE, config.DATA.IMG_SIZE), size=1000, num_classes=nb_classes, transform=transform) 
+        dataset = torchvision.datasets.FakeData(image_size=(3, config.DATA.IMG_SIZE, config.DATA.IMG_SIZE), size=10000, num_classes=nb_classes, transform=transform) 
     else:
         raise NotImplementedError("We only support ImageNet and Fakedataset Now.")
 

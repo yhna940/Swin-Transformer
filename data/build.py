@@ -11,7 +11,8 @@ import numpy as np
 import torch.distributed as dist
 from torchvision import datasets, transforms
 from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from timm.data import Mixup
+from timm.data import Mixup as _Mixup
+from timm.data.mixup import mixup_target
 from timm.data import create_transform
 
 import torchvision
@@ -19,6 +20,19 @@ import torchvision
 from .cached_image_folder import CachedImageFolder
 from .imagenet22k_dataset import IN22KDATASET
 from .samplers import SubsetRandomSampler
+
+class Mixup(_Mixup):
+    def __call__(self, x, target):
+        assert len(x) % 2 == 0, 'Batch size should be even when using this'
+        if self.mode == 'elem':
+            lam = self._mix_elem(x)
+        elif self.mode == 'pair':
+            lam = self._mix_pair(x)
+        else:
+            lam = self._mix_batch(x)
+        target = mixup_target(target, self.num_classes, lam, self.label_smoothing, target.device)
+        return x, target
+
 
 try:
     from torchvision.transforms import InterpolationMode
@@ -122,7 +136,7 @@ def build_dataset(is_train, config):
         nb_classes = 1000
         dataset = torchvision.datasets.FakeData(image_size=(3, config.DATA.IMG_SIZE, config.DATA.IMG_SIZE), size=1000, num_classes=nb_classes, transform=transform) 
     else:
-        raise NotImplementedError("We only support ImageNet Now.")
+        raise NotImplementedError("We only support ImageNet and Fakedataset Now.")
 
     return dataset, nb_classes
 

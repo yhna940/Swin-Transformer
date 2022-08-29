@@ -144,6 +144,7 @@ _C.MODEL.SWIN_MLP.PATCH_NORM = True
 # Training settings
 # -----------------------------------------------------------------------------
 _C.TRAIN = CN()
+_C.TRAIN.PROFILE = False
 _C.TRAIN.START_EPOCH = 0
 _C.TRAIN.EPOCHS = 300
 _C.TRAIN.WARMUP_EPOCHS = 20

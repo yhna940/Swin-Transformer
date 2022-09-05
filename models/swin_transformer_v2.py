@@ -11,7 +11,6 @@ import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 from timm.models.layers import to_2tuple, trunc_normal_
 import numpy as np
-from pippy.IR import pipe_split
 from pippy.fx import wrap
 
 wrap('int')
@@ -338,7 +337,6 @@ class SwinTransformerBlock(nn.Module):
 
         # FFN
         x = x + self.drop_path(self.norm2(self.mlp(x)))
-        pipe_split()
         return x
 
     def extra_repr(self) -> str:
